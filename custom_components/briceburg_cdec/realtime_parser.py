@@ -75,7 +75,7 @@ def _sensor_type(header: str) -> tuple[str, str] | None:
     return match.group(1).strip().upper(), match.group(2).strip()
 
 
-def parse_queryf(html: str, sensor_types: dict[str, str]) -> dict[str, Any]:
+def parse_queryf(html: str, sensor_types: dict[str, str], station: str = "MBG") -> dict[str, Any]:
     """Parse QueryF's 15-minute table into the coordinator data shape."""
     parser = _QueryFParser()
     parser.feed(html)
@@ -98,7 +98,7 @@ def parse_queryf(html: str, sensor_types: dict[str, str]) -> dict[str, Any]:
             if sensor_num is None:
                 continue
             observations.append({
-                "station_id": "MBG",
+                "station_id": station,
                 "sensor_num": sensor_num,
                 "sensor_type": sensor_type,
                 "date": timestamp,
