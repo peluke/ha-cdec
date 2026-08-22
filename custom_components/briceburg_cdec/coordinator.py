@@ -13,7 +13,8 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
-from .const import CONF_SCAN_INTERVAL, CONF_SENSOR_NUM, CONF_STATION, DEFAULT_SCAN_INTERVAL_MINUTES, REPORT_URL, SENSOR_TYPES
+from .const import CONF_SCAN_INTERVAL, CONF_SENSOR_NUM, CONF_STATION, DEFAULT_SCAN_INTERVAL_MINUTES, JSON_URL, REPORT_URL, SENSOR_TYPES
+from .json_parser import parse_json_data
 from .realtime_parser import parse_queryf
 
 
@@ -38,6 +39,24 @@ class BriceburgCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         today = datetime.now(ZoneInfo("America/Los_Angeles"))
         try:
             async with session.get(
+                JSON_URL,
+                params={
+                    "Stations": self.station,
+                    "SensorNums": ",".join(self.sensor_nums),
+                    "dur_code": "E",
+                    "Start": "",
+                    "End": today.strftime("%Y-%m-%dT%H:%M"),
+                },
+                timeout=aiohttp.ClientTimeout(total=30),
+            ) as metadata_response:
+                metadata_response.raise_for_status()
+                metadata = parse_json_data(await metadata_response.json(content_type=None))
+                for record in metadata["observations"]:
+                    sensor_num = str(record.get("sensor_num", ""))
+                    sensor_type = record.get("sensor_type")
+                    if sensor_num and sensor_type:
+                        self.sensor_types[sensor_num] = str(sensor_type).upper()
+            async with session.get(
                 REPORT_URL,
                 params={
                     "s": self.station,
@@ -47,7 +66,7 @@ class BriceburgCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 timeout=aiohttp.ClientTimeout(total=30),
             ) as response:
                 response.raise_for_status()
-                return parse_queryf(await response.text(), self.sensor_types)
+                return parse_queryf(await response.text(), self.sensor_types, self.station)
         except (aiohttp.ClientError, TimeoutError, ValueError) as err:
             logging.getLogger(__name__).warning(
                 "CDEC refresh failed for station %s sensors %s: %s",
