@@ -21,7 +21,7 @@ The station ID defaults to `MBG`, but you can monitor any station hosted by CDEC
 
 The integration creates one Latest observation entity per configured CDEC sensor, defaulting to sensors `20`, `25`, and `4`. It discovers sensor types from CDEC, so other CDEC sensor numbers can be configured. The latest eight records for each sensor are available in the entity's `observations` attribute, with the full count in `observation_count`.
 
-Polling frequency can be changed from the integration's Configure menu. The default is 15 minutes; valid values are 1 to 1440 minutes.
+Polling frequency can be changed from the integration's Configure menu. CDEC updates its observations every 15 minutes, so polling more frequently does not provide newer data and only creates unnecessary requests. The default and recommended interval is 15 minutes. Longer intervals can be used when immediate updates are not required.
 
 ## Development
 
