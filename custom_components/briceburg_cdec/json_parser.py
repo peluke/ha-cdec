@@ -13,6 +13,8 @@ def _normalize_record(record: dict[str, Any]) -> dict[str, Any]:
         "sensornum": "sensor_num",
         "sensornumber": "sensor_num",
         "sensor": "sensor_num",
+        "sensortype": "sensor_type",
+        "durcode": "dur_code",
         "stationid": "station_id",
         "obsdate": "obs_date",
         "measurementdate": "measurement_date",
