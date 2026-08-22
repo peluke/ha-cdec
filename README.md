@@ -30,3 +30,7 @@ python -m pytest tests
 ```
 
 The integration has no API key and stores no secrets.
+
+## Upgrading from the old Briceburg CDEC name
+
+Version 0.2.0 changes the integration domain from `briceburg_cdec` to `ha_cdec`. Remove the old **Briceburg CDEC** integration, update the repository in HACS, restart Home Assistant, and add **Home Assistant CDEC** again. If the old custom-component directory remains, remove `/config/custom_components/briceburg_cdec` after confirming that `/config/custom_components/ha_cdec` is installed.
