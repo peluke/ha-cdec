@@ -1,6 +1,6 @@
 import pytest
 
-from custom_components.ha_cdec.json_parser import parse_json_data
+from custom_components.briceburg_cdec.json_parser import parse_json_data
 
 
 def test_parse_json_data_normalizes_records():
