@@ -22,8 +22,9 @@ class BriceburgCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     """Retrieve the CDEC JSON data report."""
 
     def __init__(self, hass: HomeAssistant, entry: ConfigEntry) -> None:
-        self.station = entry.data[CONF_STATION].strip().upper()
-        self.sensor_nums = [value.strip() for value in entry.data[CONF_SENSOR_NUM].split(",") if value.strip()]
+        self.station = entry.options.get(CONF_STATION, entry.data[CONF_STATION]).strip().upper()
+        sensor_config = entry.options.get(CONF_SENSOR_NUM, entry.data[CONF_SENSOR_NUM])
+        self.sensor_nums = [value.strip() for value in sensor_config.split(",") if value.strip()]
         self.sensor_types = {number: SENSOR_TYPES[number] for number in self.sensor_nums if number in SENSOR_TYPES}
         interval_minutes = entry.options.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL_MINUTES)
         super().__init__(
