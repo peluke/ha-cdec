@@ -1,0 +1,11 @@
+{
+  "domain": "ha_cdec",
+  "name": "Home Assistant CDEC",
+  "codeowners": [],
+  "config_flow": true,
+  "documentation": "https://github.com/peluke/ha-cdec",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/peluke/ha-cdec/issues",
+  "requirements": [],
+  "version": "0.2.0"
+}
