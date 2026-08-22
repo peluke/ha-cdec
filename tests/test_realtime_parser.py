@@ -1,4 +1,4 @@
-from custom_components.ha_cdec.realtime_parser import parse_queryf
+from custom_components.briceburg_cdec.realtime_parser import parse_queryf
 
 
 def test_parse_queryf_maps_current_sensor_types():
