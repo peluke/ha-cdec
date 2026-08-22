@@ -46,9 +46,15 @@ class BriceburgOptionsFlow(config_entries.OptionsFlow):
         if user_input is not None:
             return self.async_create_entry(title="", data=user_input)
         interval = self.config_entry.options.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL_MINUTES)
+        station = self.config_entry.options.get(CONF_STATION, self.config_entry.data[CONF_STATION])
+        sensor_num = self.config_entry.options.get(CONF_SENSOR_NUM, self.config_entry.data[CONF_SENSOR_NUM])
         return self.async_show_form(
             step_id="init",
             data_schema=vol.Schema(
-                {vol.Required(CONF_SCAN_INTERVAL, default=interval): vol.All(int, vol.Range(min=1, max=1440))}
+                {
+                    vol.Required(CONF_STATION, default=station): str,
+                    vol.Required(CONF_SENSOR_NUM, default=sensor_num): str,
+                    vol.Required(CONF_SCAN_INTERVAL, default=interval): vol.All(int, vol.Range(min=1, max=1440)),
+                }
             ),
         )
