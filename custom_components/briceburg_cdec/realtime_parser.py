@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from datetime import datetime
-from html.parser import HTMLParser
 import re
+from datetime import UTC, datetime
+from html.parser import HTMLParser
 from typing import Any
 
 
@@ -116,5 +116,5 @@ def parse_queryf(html: str, sensor_types: dict[str, str], station: str = "MBG") 
         "observations": observations,
         "by_sensor": by_sensor,
         "headers": sorted({key for record in observations for key in record}),
-        "retrieved_at": datetime.now().isoformat(),
+        "retrieved_at": datetime.now(UTC).isoformat(),
     }

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 
@@ -53,5 +53,5 @@ def parse_json_data(payload: Any) -> dict[str, Any]:
         "observations": observations,
         "by_sensor": by_sensor,
         "headers": sorted({key for record in observations for key in record}),
-        "retrieved_at": datetime.now().isoformat(),
+        "retrieved_at": datetime.now(UTC).isoformat(),
     }
