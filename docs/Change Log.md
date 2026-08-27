@@ -1,5 +1,10 @@
 # Change Log
 
+## 2026-08-26 - GitHub Actions maintenance
+
+- Updated both validation jobs from `actions/checkout@v4` to `actions/checkout@v6`.
+- Removed the deprecated Node.js 20 action runtime from the HACS and hassfest jobs.
+
 ## 2026-08-26
 
 - Replaced the rolling coordinator interval with a wall-clock polling schedule.
